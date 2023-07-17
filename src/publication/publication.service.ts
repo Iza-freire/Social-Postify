@@ -17,13 +17,16 @@ export class PublicationService {
   async create(userId: number, publicationDTO: CreatePublicationDto) {
     await this.checkDuplicateTitle(publicationDTO.title);
 
+    const currentDate = new Date();
+        const dateToPublish = new Date(publicationDTO.dateToPublish);
+
     const publicationData: Prisma.PublicationCreateInput = {
       User: { connect: { id: userId } },
       image: publicationDTO.image,
       title: publicationDTO.title,
       text: publicationDTO.text,
-      dateToPublish: new Date(publicationDTO.dateToPublish),
-      published: publicationDTO.published,
+      dateToPublish,
+      published: currentDate >= dateToPublish,
       socialMedia: publicationDTO.socialMedia,
       createdAt: new Date(),
     };
