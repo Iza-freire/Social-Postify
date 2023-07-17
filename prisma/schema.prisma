@@ -28,7 +28,7 @@ model Publication {
   title         String   @db.VarChar(255)
   text          String   @db.Text
   dateToPublish DateTime
-  published     Boolean
+  published     Boolean  @default(false)
   socialMedia   String
   User          User     @relation(fields: [userId], references: [id])
   userId        Int

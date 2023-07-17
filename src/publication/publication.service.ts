@@ -23,7 +23,7 @@ export class PublicationService {
       title: publicationDTO.title,
       text: publicationDTO.text,
       dateToPublish: new Date(publicationDTO.dateToPublish),
-      published: publicationDTO.published || false,
+      published: publicationDTO.published,
       socialMedia: publicationDTO.socialMedia,
       createdAt: new Date(),
     };
