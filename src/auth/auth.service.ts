@@ -20,7 +20,7 @@ export class AuthService {
 
     async signup(data: AuthRegistrerDTO) {
         const user = await this.userService.create(data);
-        return { email: user.email };
+        return { id: user.id, email: user.email};
     }
 
     async signin(email: string, password: string) {
