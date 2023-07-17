@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { CreateUserDto } from './dto/create-ser.dto';
 import * as bcrypt from 'bcrypt';
@@ -33,14 +33,22 @@ export class UserService {
         return user;
     }
 
-    async delete(id: number) {
+    async delete(loggedUserId: number, id: number) {
+        if (loggedUserId !== id) {
+            throw new UnauthorizedException('You do not have permission to delete this user');
+        }
+
         const user = await this.userRepository.get(id);
         if (!user) throw new NotFoundException();
 
         return this.userRepository.delete(id);
     }
 
-    async update(id: number, userDTO: CreateUserDto) {
+    async update(loggedUserId: number, id: number, userDTO: CreateUserDto) {
+        if (loggedUserId !== id) {
+            throw new UnauthorizedException('You do not have permission to update this user');
+        }
+
         const user = await this.userRepository.get(id);
         if (!user) throw new NotFoundException();
 
